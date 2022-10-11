@@ -1,0 +1,24 @@
+.info {
+  color: rgb(44, 135, 70);
+}
+.error {
+  color: rgb(165, 61, 38);
+}
+.verificationButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.spin {
+  animation: spin 1s infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}

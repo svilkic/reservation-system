@@ -1,0 +1,20 @@
+.section {
+  background-color: var(--color-white);
+  padding: 1rem;
+  width: 100%;
+  align-self: flex-start;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.btn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+}
+.btn:hover {
+  /* background-color: var(--color-primary); */
+  opacity: 0.5;
+}
