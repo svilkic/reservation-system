@@ -17,7 +17,6 @@ export function useReservations() {
     setLoading(true);
     // const result = reservationsMock; //await getReservationsFirebase(date);
     const result = await getReservationsFirebase(date);
-    console.log(result);
     setReservations(result);
     setLoading(false);
   }

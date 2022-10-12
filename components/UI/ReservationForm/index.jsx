@@ -13,11 +13,12 @@ export function ReservationForm({ onReserve }) {
     phone: '',
     verificationToken: '',
   });
+
   const { checkIfTokenValid, ...rest } = useVerificationToken();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     console.log(data);
+    e.preventDefault();
     if (!checkIfTokenValid(data.verificationToken)) {
       alert('Wrong Verification Token');
       return;
@@ -29,49 +30,25 @@ export function ReservationForm({ onReserve }) {
     }
   };
 
+  const handleProductInput = (value, field) => {
+    setData((prev) => ({ ...prev, [field]: value }));
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.form}>
-        <Input
-          id='ime'
-          field='ime'
-          type='text'
-          initial={data.firstName}
-          onChange={(value) => {
-            setData((prev) => ({ ...prev, ['firstName']: value }));
-          }}
-          required
-        />
-        <Input
-          id='prezime'
-          field='prezime'
-          type='text'
-          initial={data.lastName}
-          onChange={(value) => {
-            setData((prev) => ({ ...prev, ['lastName']: value }));
-          }}
-          required
-        />
-        <Input
-          id='telefon'
-          field='telefon'
-          type='text'
-          initial={data.phone}
-          onChange={(value) => {
-            setData((prev) => ({ ...prev, ['phone']: value }));
-          }}
-          required
-        />
-        <Input
-          id='email'
-          field='Email'
-          type='email'
-          initial={data.email}
-          onChange={(value) => {
-            setData((prev) => ({ ...prev, ['email']: value }));
-          }}
-          required
-        />
+        {inputFileds.map((field) => (
+          <Input
+            key={field.id}
+            id={field.id}
+            field={field.field}
+            type={field.type}
+            initial={field.initial}
+            onChange={(e) => {
+              handleProductInput(e, field.id);
+            }}
+          />
+        ))}
         <VerificationButton email={data.email} {...rest} />
         <Input
           id='verification'
@@ -88,3 +65,10 @@ export function ReservationForm({ onReserve }) {
     </section>
   );
 }
+
+const inputFileds = [
+  { id: 1, id: 'firstName', field: 'ime', type: 'text', placeholder: '' },
+  { id: 2, id: 'lastName', field: 'prezime', type: 'text', placeholder: '' },
+  { id: 3, id: 'phone', field: 'telefon', type: 'tel', placeholder: '' },
+  { id: 4, id: 'email', field: 'email', type: 'email', placeholder: '' },
+];

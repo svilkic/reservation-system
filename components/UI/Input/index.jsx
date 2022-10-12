@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // Styles
 import styles from './input.module.css';
 
-const INPUT_TYPES = ['text', 'number', 'password', 'email', 'checkbox', 'file'];
+const INPUT_TYPES = ['text', 'number', 'password', 'email', 'checkbox', 'file', 'tel'];
 
 export function Input({ id, field, type, onChange, initial, options, placeholder, ...rest }) {
   const [value, setValue] = useState(0);

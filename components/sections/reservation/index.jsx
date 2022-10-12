@@ -31,7 +31,7 @@ export function ReservationSection() {
     setStep(3);
   };
 
-  const onReserve = (reservation) => {
+  const onReserve = async (reservation) => {
     const { firstName, lastName, email, phone, verificationToken } = reservation;
     const user = {
       firstName,
@@ -40,24 +40,29 @@ export function ReservationSection() {
       phone,
     };
     const data = { reservation: { uid: verificationToken, user, hour: selectedHour }, date: selectedDate };
-
     delete data.verificationToken;
-    // console.log(selectedDate, data);
-    addReservation(data);
+
+    await addReservation(data);
+    setStep(1);
   };
 
   return (
-    <div className={styles.sections}>
-      <DatePicker onChange={onDateChange} previousSelectable={false} />
-      {step > 1 && selectedDate && (
-        <HourPicker
-          date={selectedDate}
-          loading={loadingReservations}
-          reservations={reservations}
-          onSelect={onHourSelect}
-        />
-      )}
-      {step > 2 && <ReservationForm onReserve={onReserve} />}
-    </div>
+    <section className={styles.section}>
+      <div>
+        <h2>Reserve your next appointment</h2>
+      </div>
+      <div className={styles.sections}>
+        <DatePicker onChange={onDateChange} previousSelectable={false} />
+        {step > 1 && selectedDate && (
+          <HourPicker
+            date={selectedDate}
+            loading={loadingReservations}
+            reservations={reservations}
+            onSelect={onHourSelect}
+          />
+        )}
+        {step > 2 && <ReservationForm onReserve={onReserve} />}
+      </div>
+    </section>
   );
 }
