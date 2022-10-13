@@ -17,7 +17,6 @@ export function ReservationForm({ onReserve }) {
   const { checkIfTokenValid, ...rest } = useVerificationToken();
 
   const handleSubmit = (e) => {
-    console.log(data);
     e.preventDefault();
     if (!checkIfTokenValid(data.verificationToken)) {
       alert('Wrong Verification Token');

@@ -38,7 +38,7 @@ export const getReservationsFirebase = async (date) => {
     if (docSnap.exists()) {
       const data = docSnap.data();
       const { reservations, skip } = convertReservationsFromFirebaseToArray(data);
-      return reservations;
+      return { reservations, skip };
     } else {
       return [];
     }
@@ -55,19 +55,23 @@ export const addReservationFirebase = async (data) => {
     await runTransaction(db, async (transaction) => {
       // Check if reservation already exists
       const reservationSnap = await transaction.get(docRef);
-      if (reservationSnap.exists()) {
+      if (!reservationSnap.exists()) {
+        await transaction.set(docRef, { [reservation.hour]: reservation }, { merge: true });
+      } else {
         const res = reservationSnap.data();
         if (!res[reservation.hour]) {
           docRef = doc(db, collectionID, documentID);
           await transaction.set(docRef, { [reservation.hour]: reservation }, { merge: true });
-          alert('Reservation made!');
         } else {
           alert('Error! Reservation already exists.');
           return;
         }
       }
+      alert('Reservation made!');
+      return true;
     });
   } catch (error) {
+    return false;
     alert(error);
     console.log('Transaction failed: ', error);
   }

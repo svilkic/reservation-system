@@ -37,6 +37,10 @@
   background-color: var(--color-primary);
   color: var(--color-white);
 }
+.unavailable {
+  background-image: repeating-linear-gradient(150deg, transparent, Transparent 10px, black 11px, black 12px);
+  border: none;
+}
 
 .spinner {
   background-color: rgba(0, 0, 0, 0.4);

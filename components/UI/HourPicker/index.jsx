@@ -9,16 +9,14 @@ import { Spinner } from '../Spinner';
 const startHour = 8;
 const endHour = 20;
 
-function HourPicker({ date, loading, reservations, onSelect }) {
+function HourPicker({ date, loading, reservations, skip, onSelect }) {
   const [fullReservations, setFullReservations] = useState([]);
   const [selectedHour, setSelectedHour] = useState(0);
   const selectedClass = (hour) => (selectedHour == hour ? styles.selected : '');
+  const skipHour = (hour) => (skip.includes(`${hour}`) ? true : false);
 
-  // TODO:
-  // Send Date and hour to be reserved for specific user
-  const handleReservation = (hour) => {
+  const handleSelect = (hour) => {
     setSelectedHour(hour);
-    // console.log(date + ' : ' + hour);
     onSelect(hour);
   };
 
@@ -43,8 +41,9 @@ function HourPicker({ date, loading, reservations, onSelect }) {
             hour={reservation.hour}
             reserved={reservation.user}
             className={selectedClass(reservation.hour)}
+            skip={skipHour(reservation.hour)}
             onClick={() => {
-              if (!reservation.user) handleReservation(reservation.hour);
+              if (!reservation.user && !skip.includes(`${reservation.hour}`)) handleSelect(reservation.hour);
             }}
           />
         ))}
@@ -55,6 +54,7 @@ function HourPicker({ date, loading, reservations, onSelect }) {
 
 HourPicker.defaultProps = {
   date: null,
+  skip: [],
   reservations: [],
   loading: false,
 };

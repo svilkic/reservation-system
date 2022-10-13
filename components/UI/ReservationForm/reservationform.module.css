@@ -2,7 +2,9 @@
   background-color: var(--color-white);
   padding: 1rem;
   width: 100%;
-  align-self: flex-start;
+
+  /* align-self: flex-start; */
+  overflow-y: scroll;
 }
 .form {
   display: flex;

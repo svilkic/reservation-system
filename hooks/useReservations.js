@@ -8,22 +8,27 @@ const reservationsMock = [
   { id: '3515248', hour: 14, user: {}, service: {} },
 ];
 
+const DEFAULT_SKIPS = process.env.NEXT_PUBLIC_SKIP_HOURS.split(',');
+
 export function useReservations() {
   const [reservations, setReservations] = useState([]);
+  const [skip, setSkip] = useState([]);
   const [loading, setLoading] = useState(false);
 
   async function getReservations(date) {
     if (!date) return;
     setLoading(true);
-    // const result = reservationsMock; //await getReservationsFirebase(date);
     const result = await getReservationsFirebase(date);
-    setReservations(result);
+    setReservations(result.reservations);
+    const skips = result.skip || [];
+    setSkip([...DEFAULT_SKIPS, ...skips]);
     setLoading(false);
   }
 
   async function addReservation(reservation, date) {
     setLoading(true);
-    const result = addReservationFirebase(reservation, date);
+    const result = await addReservationFirebase(reservation, date);
+    await getReservations(date);
     setLoading(false);
   }
 
@@ -31,6 +36,7 @@ export function useReservations() {
 
   return {
     reservations,
+    skip,
     loading,
     getReservations,
     addReservation,

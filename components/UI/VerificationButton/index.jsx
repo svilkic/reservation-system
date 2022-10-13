@@ -9,6 +9,8 @@ export function VerificationButton({ email, verificationToken, error, sending, s
 
   return (
     <>
+      {/* TODO: Izbrisi ovu liniju */}
+      {verificationToken}
       {verificationToken && <span className={styles.info}>Check your email.</span>}
       {error && <span className={styles.error}>{error}</span>}
       <button className={styles.verificationButton} onClick={onSend} disabled={sending || wait}>
