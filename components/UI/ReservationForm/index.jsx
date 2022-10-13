@@ -5,6 +5,8 @@ import styles from './reservationform.module.css';
 import { VerificationButton } from '../VerificationButton';
 import { useVerificationToken } from 'hooks/useVerificationToken';
 
+const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 export function ReservationForm({ onReserve }) {
   const [data, setData] = useState({
     firstName: '',
@@ -13,6 +15,8 @@ export function ReservationForm({ onReserve }) {
     phone: '',
     verificationToken: '',
   });
+
+  const isValidEmail = !!data.email.match(emailRegex);
 
   const { checkIfTokenValid, ...rest } = useVerificationToken();
 
@@ -48,7 +52,7 @@ export function ReservationForm({ onReserve }) {
             }}
           />
         ))}
-        <VerificationButton email={data.email} {...rest} />
+        <VerificationButton email={data.email} {...rest} disabled={isValidEmail} />
         <Input
           id='verification'
           field='Verifikacioni kod'

@@ -19,15 +19,19 @@ export function useVerificationToken() {
     setError('');
     try {
       let token = generateToken();
+      // TEST: Uncoment
       // const result = await sendToken(email, token);
       const result = { status: 200 };
 
-      if (result.status == 200) {
-        setVerificationToken(token);
-      } else {
-        setError(result.text);
-      }
-      setSending(false);
+      // TEST: remove timeout
+      setTimeout(() => {
+        if (result.status == 200) {
+          setVerificationToken(token);
+        } else {
+          setError(result.text);
+        }
+        setSending(false);
+      }, 2000);
     } catch (error) {
       setSending(false);
       setError(error.text);

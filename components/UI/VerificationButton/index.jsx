@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './verificationbutton.module.css';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
-export function VerificationButton({ email, verificationToken, error, sending, sendVerificationToken, wait }) {
+export function VerificationButton({
+  email,
+  verificationToken,
+  error,
+  sending,
+  sendVerificationToken,
+  wait,
+  disabled,
+}) {
   const onSend = async () => {
     if (email) await sendVerificationToken(email);
   };
 
+  useEffect(() => {
+    console.log(sending, wait, disabled);
+  });
   return (
     <>
-      {/* TODO: Izbrisi ovu liniju */}
+      {/* TEST: Izbrisi ovu liniju */}
       {verificationToken}
       {verificationToken && <span className={styles.info}>Check your email.</span>}
       {error && <span className={styles.error}>{error}</span>}
-      <button className={styles.verificationButton} onClick={onSend} disabled={sending || wait}>
+      <button className={styles.verificationButton} onClick={onSend} disabled={sending || wait || !disabled}>
         {sending ? (
           <>
             <AiOutlineLoading3Quarters className={styles.spin} /> Sending
@@ -25,3 +36,13 @@ export function VerificationButton({ email, verificationToken, error, sending, s
     </>
   );
 }
+
+VerificationButton.defaultProps = {
+  email: '',
+  verificationToken: '',
+  error: null,
+  sending: false,
+  sendVerificationToken: () => {},
+  wait: false,
+  disabled: true,
+};
